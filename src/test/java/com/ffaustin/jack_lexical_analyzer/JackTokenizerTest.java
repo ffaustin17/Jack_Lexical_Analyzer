@@ -157,4 +157,30 @@ public class JackTokenizerTest {
 
         assertTrue(containsInvalid, "Tokenizer should detect invalid characters like '$' and '^'");
     }
+
+    @Test
+    void tokenize_removesMultilineCommentsAcrossLines() {
+        String code = """
+        /* 
+         * This is a multi-line comment
+         * that should be ignored entirely
+         */
+        class Main {
+            return;
+        }
+        """;
+
+        List<Token> tokens = new JackTokenizer().tokenize(code);
+
+        List<Token> expected = List.of(
+                TokenFixtures.keyword("class"),
+                TokenFixtures.identifier("Main"),
+                TokenFixtures.symbol("{"),
+                TokenFixtures.keyword("return"),
+                TokenFixtures.symbol(";"),
+                TokenFixtures.symbol("}")
+        );
+
+        assertEquals(expected, tokens, "Tokenizer should ignore multi-line comments and return valid tokens only");
+    }
 }

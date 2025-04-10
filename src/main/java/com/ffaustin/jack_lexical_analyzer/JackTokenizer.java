@@ -27,7 +27,7 @@ public class JackTokenizer
 
     public String removeComments(String input){
         return input.replaceAll("//.*", "") //single line comments
-                .replaceAll("/\\*.*?\\*/", "") //multi-line comments
+                .replaceAll("(?s)/\\*.*?\\*/", "") //multi-line comments
                 .replaceAll("\r", ""); //normalize line endings
     }
 
