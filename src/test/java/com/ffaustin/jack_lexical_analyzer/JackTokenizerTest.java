@@ -160,7 +160,7 @@ public class JackTokenizerTest {
         String code = "let s = \"This is broken;";
         List<Token> tokens = new JackTokenizer().tokenize(code);
 
-        Token lastToken = tokens.get(tokens.size() - 1);
+        Token lastToken = tokens.getLast();
         assertTrue(
                 lastToken.getType() == Token.Type.INVALID || lastToken.getType() == Token.Type.STRING_CONST && !lastToken.getValue().endsWith("\""),
                 "Unterminated strings should not be classified as valid STRING_CONST tokens"

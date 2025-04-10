@@ -48,7 +48,7 @@ public class JackTokenizer
                     insideString = false;
                 }
                 else{
-                    if(current.length() > 0){
+                    if(!current.isEmpty()){
                         tokens.add(classify(current.toString()));
                         current.setLength(0);
                     }
@@ -60,13 +60,13 @@ public class JackTokenizer
                 current.append(c);
             }
             else if(Character.isWhitespace(c)){
-                if(current.length() > 0){
+                if(!current.isEmpty()){
                     tokens.add(classify(current.toString()));
                     current.setLength(0);
                 }
             }
             else if(SYMBOLS.contains(c)){
-                if(current.length() > 0){
+                if(!current.isEmpty()){
                     tokens.add(classify(current.toString()));
                     current.setLength(0);
                 }
@@ -77,7 +77,7 @@ public class JackTokenizer
             }
         }
 
-        if(current.length() > 0){
+        if(!current.isEmpty()){
             tokens.add(classify(current.toString()));
         }
 
