@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * TokenWriter handles outputting a list of tokens to an XML-formatted file.
+ */
 public class TokenWriter {
     public static void writeTokensToFile(List<Token>tokens, Path outputPath) throws IOException{
         try(BufferedWriter writer = Files.newBufferedWriter(outputPath))

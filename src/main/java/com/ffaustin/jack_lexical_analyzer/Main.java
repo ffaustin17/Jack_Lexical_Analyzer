@@ -39,6 +39,10 @@ public class Main {
         }
     }
 
+    /**
+     * Processes a single Jack file : tokenizes it and writes the XML output
+     * @param jackFile path to the .jack file
+     */
     private static void processJackFile(Path jackFile){
         System.out.println("Tokenizing: " + jackFile.getFileName());
 
@@ -56,6 +60,12 @@ public class Main {
         }
     }
 
+
+    /**
+     * Generates the corresponding output file path (XxxxT.xml).
+     * @param inputFile path to the .jack input
+     * @return corresponding .xml output path
+     */
     private static Path generateOutputPath(Path inputFile){
         String filename = inputFile.getFileName().toString();
         String newName = filename.replace(".jack", "T.xml");

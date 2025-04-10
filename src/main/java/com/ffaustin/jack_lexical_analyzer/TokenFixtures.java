@@ -1,5 +1,9 @@
 package com.ffaustin.jack_lexical_analyzer;
 
+/**
+ * Helper factory class for quickly creating Token test instances
+ * with less repetition in test cases.
+ */
 public class TokenFixtures {
 
     public static Token keyword(String value){

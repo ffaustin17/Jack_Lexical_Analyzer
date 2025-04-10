@@ -1,5 +1,12 @@
 package com.ffaustin.jack_lexical_analyzer;
 
+/**
+ * Represents a single token from Jack source code.
+ * Each Token has a type (keyword, symbol, identifier, etc.) and a string value.
+ * Also includes methods to convert tokens to XML format with appropriate escaping.
+ * @param type the type of token
+ * @param value the raw string that needs to be placed within the XML tags
+ */
 public record Token(com.ffaustin.jack_lexical_analyzer.Token.Type type, String value) {
 
     public enum Type {

@@ -5,32 +5,52 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Hello world!
- *
+ * The JackTokenizer class handles the lexical analysis (tokenization) of .jack source code.
+ * It removes comments, splits the input into tokens, and classifies each as per Jack language rules.
  */
 public class JackTokenizer
 {
+    /** Set of all Jack language keywords */
     private static final Set<String> KEYWORDS = Set.of(
             "class", "constructor", "function", "method", "field", "static", "var", "int", "char", "boolean",
             "void", "true", "false","null", "this", "let","do", "if", "else", "while", "return"
     );
 
+    /** Set of all single-character symbols in Jack */
     private static  final Set<Character> SYMBOLS = Set.of(
             '{', '}', '(', ')', '[', ']', '.', ',', ';',
             '+', '-', '*', '/', '&', '|', '<', '>', '=', '~'
     );
 
+    /**
+     * Performs full tokenization : removes comments and lexes the code.
+     * @param input the raw Jack source code
+     * @return list of classified Token objects
+     */
     public List<Token> tokenize(String input){
         String noComments = removeComments(input);
         return lex(noComments);
     }
 
+
+    /**
+     * Removes all single-line and multi-line comments from the input.
+     * @param input source code with possible comments
+     * @return cleaned code with no comments
+     */
     public String removeComments(String input){
         return input.replaceAll("//.*", "") //single line comments
                 .replaceAll("(?s)/\\*.*?\\*/", "") //multi-line comments
                 .replaceAll("\r", ""); //normalize line endings
     }
 
+
+    /**
+     * Lexes the given input into a list of tokens.
+     * Handles string literals, symbols, identifiers, keywords, numbers, etc.
+     * @param input the cleaned source code (no comments)
+     * @return list of classified tokens
+     */
     public List<Token> lex(String input){
         List<Token> tokens = new ArrayList<>();
 
@@ -84,6 +104,12 @@ public class JackTokenizer
         return tokens;
     }
 
+
+    /**
+     * Determines the correct token type based on the lexeme's content.
+     * @param lexeme the raw string to classify
+     * @return Token with appropriate type
+     */
     private Token classify(String lexeme){
         if(KEYWORDS.contains(lexeme)){
             return new Token(Token.Type.KEYWORD, lexeme);
