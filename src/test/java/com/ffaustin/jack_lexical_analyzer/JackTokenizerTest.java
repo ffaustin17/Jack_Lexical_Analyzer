@@ -12,7 +12,7 @@ public class JackTokenizerTest {
     @Test
     void shouldReturnCorrectTokenSequence() {
         String code = "class Main {return;}";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         List<Token> expected = List.of(
                 keyword("class"),
@@ -29,7 +29,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_variableAssignmentWithInteger_returnsKeywordIdentifierSymbolIntSymbol() {
         String code = "let x = 123;";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         List<Token> expected = List.of(
                 keyword("let"),
@@ -45,7 +45,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_stringLiteralInsideFunctionCall_recognizesStringConstant() {
         String code = "do Output.printString(\"Hello, World\");";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         assertTrue(
                 tokens.contains(stringConst("Hello, World")),
@@ -60,7 +60,7 @@ public class JackTokenizerTest {
             let x = 5; /* another comment */
             """;
 
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         List<Token> expected = List.of(
                 keyword("let"),
@@ -76,7 +76,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_stringWithEscapedSymbols_outputsEscapedXMLValues() {
         String code = "let s = \"x < y & y > z\";";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         Token stringToken = tokens.stream()
                 .filter(t -> t.type() == Token.Type.STRING_CONST)
@@ -92,7 +92,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_invalidCharacters_marksThemAsInvalidTokens() {
         String code = "let x = $oops;";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         assertTrue(tokens.stream().anyMatch(t -> t.type() == Token.Type.INVALID),
                 "Tokenizer should detect invalid characters like '$'");
@@ -101,7 +101,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_emptyInput_returnsEmptyTokenList() {
         String code = "";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         assertTrue(tokens.isEmpty(), "Tokenizer should return empty list for empty input");
     }
@@ -109,7 +109,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_multipleStringLiterals_recognizesEachIndividually() {
         String code = "do Output.printString(\"Hello\"); do Output.printString(\"World\");";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         long stringCount = tokens.stream()
                 .filter(t -> t.type() == Token.Type.STRING_CONST)
@@ -121,7 +121,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_unterminatedString_detectsInvalidToken() {
         String code = "let s = \"This is broken;";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         Token lastToken = tokens.getLast();
 
@@ -136,7 +136,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_keywordsInsideIdentifiers_recognizesOnlyExactKeywords() {
         String code = "classroom methodical voided";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         List<Token> expected = List.of(
                 identifier("classroom"),
@@ -150,7 +150,7 @@ public class JackTokenizerTest {
     @Test
     void tokenize_mixedValidAndInvalidTokens_detectsAllProperly() {
         String code = "let x = 5; $invalid ^caret";
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         boolean containsInvalid = tokens.stream()
                 .anyMatch(t -> t.type() == Token.Type.INVALID);
@@ -161,16 +161,16 @@ public class JackTokenizerTest {
     @Test
     void tokenize_removesMultilineCommentsAcrossLines() {
         String code = """
-        /* 
+        /*
          * This is a multi-line comment
          * that should be ignored entirely
          */
         class Main {
             return;
         }
-        """;
+       """;
 
-        List<Token> tokens = new JackTokenizer().tokenize(code);
+        List<Token> tokens = JackTokenizer.tokenize(code);
 
         List<Token> expected = List.of(
                 TokenFixtures.keyword("class"),

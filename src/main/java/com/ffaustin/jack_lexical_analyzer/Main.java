@@ -48,7 +48,7 @@ public class Main {
 
         try{
             String source = Files.readString(jackFile);
-            List<Token> tokens = new JackTokenizer().tokenize(source);
+            List<Token> tokens = JackTokenizer.tokenize(source);
 
             Path outputPath = generateOutputPath(jackFile);
             TokenWriter.writeTokensToFile(tokens, outputPath);

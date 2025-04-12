@@ -27,7 +27,7 @@ public class JackTokenizer
      * @param input the raw Jack source code
      * @return list of classified Token objects
      */
-    public List<Token> tokenize(String input){
+    public static List<Token> tokenize(String input){
         String noComments = removeComments(input);
         return lex(noComments);
     }
@@ -38,7 +38,7 @@ public class JackTokenizer
      * @param input source code with possible comments
      * @return cleaned code with no comments
      */
-    public String removeComments(String input){
+    public static String removeComments(String input){
         return input.replaceAll("//.*", "") //single line comments
                 .replaceAll("(?s)/\\*.*?\\*/", "") //multi-line comments
                 .replaceAll("\r", ""); //normalize line endings
@@ -51,7 +51,7 @@ public class JackTokenizer
      * @param input the cleaned source code (no comments)
      * @return list of classified tokens
      */
-    public List<Token> lex(String input){
+    public static List<Token> lex(String input){
         List<Token> tokens = new ArrayList<>();
 
         StringBuilder current = new StringBuilder();
@@ -110,7 +110,7 @@ public class JackTokenizer
      * @param lexeme the raw string to classify
      * @return Token with appropriate type
      */
-    private Token classify(String lexeme){
+    private static Token classify(String lexeme){
         if(KEYWORDS.contains(lexeme)){
             return new Token(Token.Type.KEYWORD, lexeme);
         }

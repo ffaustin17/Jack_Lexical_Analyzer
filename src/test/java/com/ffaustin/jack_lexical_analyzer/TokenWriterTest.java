@@ -19,7 +19,7 @@ public class TokenWriterTest {
 
         //tokenize
         String jackCode = Files.readString(inputPath);
-        List<Token> tokens = new JackTokenizer().tokenize(jackCode);
+        List<Token> tokens = JackTokenizer.tokenize(jackCode);
 
         //write actual output
         TokenWriter.writeTokensToFile(tokens, generatedXmlPath);
